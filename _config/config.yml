@@ -1,0 +1,32 @@
+---
+Name: templateoverview_advanced
+Before: 'mysite/*'
+After: 'framework/*','cms/*'
+---
+
+
+LeftAndMain:
+  css:
+    - "templateoverview_advanced/css/TemplateoverviewCMSHelp.css"
+
+LeftAndMain:
+  help_link: "admin/help/"
+
+TemplateoverviewDescription:
+  image_source_folder: "_dev/designs"
+
+CMSHelp:
+  help_file_directory_name: "_help"
+
+---
+only:
+  environment: 'dev'
+---
+
+SiteTree:
+  extensions:
+    - TemplateoverviewPageDecorator
+
+ContentController:
+  extensions:
+    - TemplateoverviewPageExtension

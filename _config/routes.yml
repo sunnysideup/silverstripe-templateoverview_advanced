@@ -1,0 +1,8 @@
+---
+Name: templateoverview_advancedroutes
+After: 'framework/routes#coreroutes'
+---
+
+Director:
+  rules:
+    'admin/help': 'CMSHelp'
