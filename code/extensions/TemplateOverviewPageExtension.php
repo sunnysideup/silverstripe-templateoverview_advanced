@@ -11,10 +11,6 @@ class TemplateoverviewPageExtension extends Extension
 {
     protected $templateList = null;
 
-    public function TemplateoverviewPage()
-    {
-        return TemplateoverviewPage::get()->First();
-    }
 
     public function IncludeTemplateoverviewDevelopmentFooter()
     {
@@ -62,9 +58,9 @@ class TemplateoverviewPageExtension extends Extension
     public function TemplateList()
     {
         if (!$this->templateList) {
-            $page = TemplateoverviewPage::get()->First();
-            if ($page) {
-                $this->templateList = $page->ListOfAllClasses();
+            $api = Injector::inst()->get('TemplateoverviewPageAPI');
+            if ($api) {
+                $this->templateList = $api->ListOfAllClasses();
             }
         }
         return $this->templateList;

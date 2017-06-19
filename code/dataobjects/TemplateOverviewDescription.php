@@ -17,7 +17,6 @@ class TemplateoverviewDescription extends DataObject
     );
 
     private static $has_one = array(
-        "Parent" => "TemplateoverviewPage",
         "Image1" => "Image",
         "Image2" => "Image",
         "Image3" => "Image",
@@ -100,10 +99,6 @@ class TemplateoverviewDescription extends DataObject
     public function getCMSFields()
     {
         $fields = parent::getCMSFields();
-        $page = TemplateoverviewPage::get()->First();
-        if (!$page) {
-            user_error("Please make sure to create a TemplateoverviewPage to make use of this module.", E_USER_WARNING);
-        }
         $fields->removeByName("ClassNameLink");
         $fields->removeByName("Image1");
         $fields->removeByName("Image2");
@@ -119,7 +114,6 @@ class TemplateoverviewDescription extends DataObject
         $fields->addFieldToTab("Root.Instructions", new UploadField("Image7", "Instructions Four"));
         $fields->addFieldToTab("Root.Main", new HeaderField("ClassNameLinkInfo", "Details for: ".$this->ClassNameLink), "Description");
         $fields->addFieldToTab("Root.Main", new LiteralField("BackLink", '<p><a href="'.$page->Link().'#sectionFor-'.$this->ClassNameLink.'">go back to template overview page</a> - dont forget to SAVE FIRST.</p>'));
-        $fields->removeByName("ParentID");
         return $fields;
     }
 
@@ -127,7 +121,6 @@ class TemplateoverviewDescription extends DataObject
     {
         parent::requireDefaultRecords();
         $data = ClassInfo::subclassesFor("SiteTree");
-        $TemplateoverviewPage = TemplateoverviewPage::get()->First();
         $fileList = null;
         if ($this->Config()->get("image_source_folder")) {
             $fileList = CMSHelp::get_list_of_files($this->Config()->get("image_source_folder"));
@@ -141,14 +134,13 @@ class TemplateoverviewDescription extends DataObject
             $destinationDir = Director::baseFolder()."/assets/".$this->Config()->get("image_folder_name")."/";
             $destinationFolder = Folder::find_or_make($this->Config()->get("image_folder_name"));
         }
-        if ($data && $TemplateoverviewPage) {
+        if ($data) {
             foreach ($data as $className) {
                 $object = TemplateoverviewDescription::get()
                     ->filter(array("ClassNameLink" => $className))->First();
                 if (!$object) {
                     $object = new TemplateoverviewDescription();
                     $object->ClassNameLink = $className;
-                    $object->ParentID = $TemplateoverviewPage->ID;
                     $object->write();
                     DB::alteration_message("adding template description for $className", "created");
                 } else {
@@ -180,7 +172,7 @@ class TemplateoverviewDescription extends DataObject
                                             copy($fileArray["FullLocation"], $destinationDir.$fileArray["FileName"]);
                                         }
                                         $image = $Image::get()
-                                            ->filter(array("ParentID" => $destinationFolder-ID, "Name" => $fileArray["FileName"]))->First();
+                                            ->filter(array("ParentID" => $destinationFolder->ID, "Name" => $fileArray["FileName"]))->First();
                                         if (!$image) {
                                             $image = new Image();
                                             $image->ParentID = $destinationFolder->ID;
@@ -258,11 +250,6 @@ Deny from all
 
     public function onBeforeWrite()
     {
-        if (!$this->ParentID) {
-            if ($page = TemplateoverviewPage::get()->First()) {
-                $this->ParentID = $page->ID;
-            }
-        }
         parent::onBeforeWrite();
     }
 
