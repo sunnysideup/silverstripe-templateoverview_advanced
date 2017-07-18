@@ -1,4 +1,4 @@
-# Silverstripe templateoverview_advanced module
+# Silverstripe templateoverview advanced module
 [![Build Status](https://travis-ci.org/sunnysideup/silverstripe-templateoverview_advanced.svg?branch=master)](https://travis-ci.org/sunnysideup/silverstripe-templateoverview_advanced)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sunnysideup/silverstripe-templateoverview_advanced/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sunnysideup/silverstripe-templateoverview_advanced/?branch=master)
 [![codecov.io](https://codecov.io/github/sunnysideup/silverstripe-templateoverview_advanced/coverage.svg?branch=master)](https://codecov.io/github/sunnysideup/silverstripe-templateoverview_advanced?branch=master)
